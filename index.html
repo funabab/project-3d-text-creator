@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3D Text Logo Maker</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dialog-polyfill.css">
+</head>
+<body>
+
+    <header>
+        <div class="container container-flex">
+            <h1>
+                <a href=""><span style='font-family: "FontAwesomeSolid";'>&#xf61f;</span> 3D Text Creator</a>
+            </h1>
+
+            <button id="btn-share-creation" class="flex-to-right"><span>Share Creation</span> <span style='font-family: "FontAwesomeSolid"'>&#xf1e0;</span></button>
+        </div>
+    </header>
+
+    <main>
+        <section id="scene-container">
+            <div id="scene-ui-actions-container">
+                <div id="scene-ui-actions">
+                    <select id="scene-animation-speed-select-input">
+                        <option value="0" selected>No Animation</option>
+                        <option value="1">1x Speed</option>
+                        <option value="2">2x Speed</option>
+                        <option value="2.5">2.5x Speed</option>
+                        <option value="5">5x Speed</option>
+                        <option value="7.5">7.5x Speed</option>
+                        <option value="10">10x Speed</option>
+                        <option value="15">15x Speed</option>
+                        <option value="20">20x Speed</option>
+                        <option value="30">30x Speed</option>
+                    </select>
+                    <button id="btn-scene-fullscreen">&#xf51b;</button>
+                    <button id="btn-scene-capture">&#xf030;</button>
+
+                </div>
+            </div>
+            <div id="scene-capture-container"></div>
+            <div id="scene-loading-container" data-state="loading">
+                <div>
+                    An error occurred while loading scene <button onclick="javascript:window.location.reload(true);">Reload</button>
+                </div>
+            </div>
+        </section>
+        <secion id="scene-editor-container" data-state="loading">
+            <nav id="editor-section-tab">
+                <ul>
+                    <li><a href="#" data-tab-for="main-scene-edit-settings" data-tab-link>&#xf013;</a></li>
+                    <li data-active="true"><a href="#" data-tab-for="main-text-edit-settings" data-tab-link>&#xf031;</a></li>
+                    <li><a href="#" data-tab-for="main-icon-edit-settings" data-tab-link>&#xf86d;</a></li>
+                </ul>
+            </nav>
+            <div id="main-scene-edit-settings" class="editor-group">
+                <div class="editor-group-header">
+                    <span>Scene Settings</span> <a href="#" class="editor-group-header-dropdown"></a>
+                </div>
+
+                <div class="editor-group-body">
+                    <div class="form-group">
+                        <label for="scene-bg-color-input">Background Color</label>
+                        <input type="color" id="scene-bg-color-input" value="#00b7ff">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-ambient-light-color-input">Ambient Light Color</label>
+                        <input type="color" id="scene-ambient-light-color-input" value="#4e4e4e">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-vigenette-color-input">Vigenette Color</label>
+                        <input type="color" id="scene-vigenette-color-input" value="#000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-vigenette-range-input">Vigenette Range</label>
+                        <input type="range" id="scene-vigenette-range-input" min="0" max="100" value="8">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-reflection-range-input">Reflection Range</label>
+                        <input type="range" id="scene-reflection-range-input" value="65">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-object-depth-range-input">Object Depth Range</label>
+                        <input type="range" id="scene-object-depth-range-input" min="1" max="100">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scene-zoom-range-input">Scene Zoom</label>
+                        <input type="range" id="scene-zoom-range-input" min="0" max="100" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-text-edit-settings" class="editor-group" data-group-expanded="true" data-active="true">
+                <div class="editor-group-header">
+                        <span>Text Edit</span> <a href="#" class="editor-group-header-dropdown"></a>
+                </div>
+                <div class="editor-group-body">
+                    <div class="form-group">
+                        <input type="text" id="main-text-input" value="TEXT" maxlength="100" placeholder="text">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="main-text-color-input">Text Color</label>
+                        <input type="color" id="main-text-color-input" value="#ff8000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="main-text-font-select-input">Text Font</label>
+                        <select id="main-text-font-select-input">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="main-icon-edit-settings" class="editor-group" data-group-expanded="true">
+                <div class="editor-group-header">
+                    <span>Icon Edit</span> <a href="#" class="editor-group-header-dropdown"></a>
+                </div>
+
+                <div class="editor-group-body">
+                    <div class="form-group">
+                        <select name="" id="main-icon-select-input">
+                            <option disabled selected value="">Select icon</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="main-icon-color-input">Icon Color</label>
+                        <input type="color" id="main-icon-color-input" value="#ff8000">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Icon Alignment</label>
+                        <div class="form-checkbox-group">
+                            <div class="checkbox-input">
+                                <input type="radio" name="main-icon-alignment" value="left"><span>&#xf036;</span>
+                            </div>
+
+                            <div class="checkbox-input">
+                                <input type="radio" name="main-icon-alignment" value="top" checked><span>&#xf037;</span>
+                            </div>
+                            
+                            <div class="checkbox-input">
+                                <input type="radio" name="main-icon-alignment" value="right"><span>&#xf038;</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </secion>
+    </main>
+
+
+    <footer>
+        <div class="container">
+            Copyright &copy; 2020 - Made with <span style='font-family: "FontAwesomeSolid"; color: pink'>&#xf004;</span>
+        </div>
+    </footer>
+    <dialog id="dialog-share-creation">
+        <div id="dialog-share-creation-header">
+            <h2>Share Creation</h2> <a href="#" data-action-for="dialog-share-creation" data-action-close-dialog>&times;</a>
+        </div>
+
+        <div id="dialog-share-creation-body">
+            <div class="form-group">
+                <label for="share-creation-link-input" class="text-center">Share Link</label>
+                <div class="icon-input">
+                    <input id="share-creation-link-input" value="hello World" readonly>
+                    <button id="btn-copy-share-creation-link" style='font-family: "FontAwesomeSolid";'>&#xf328;</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/dialog-polyfill.js"></script>
+    <script src="js/threejs/three.min.js"></script>
+    <script src="js/threejs/CopyShader.js"></script>
+    <script src="js/threejs/EffectComposer.js"></script>
+    <script src="js/threejs/ShaderPass.js"></script>
+    <script src="js/threejs/SSAARenderPass.js"></script>
+
+    <script src="js/threejs/OrbitControls.js"></script>
+    <script src="js/FileSaver.js"></script>
+    <script src="js/scene.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
